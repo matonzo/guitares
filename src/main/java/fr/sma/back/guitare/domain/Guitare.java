@@ -2,12 +2,19 @@ package fr.sma.back.guitare.domain;
 
 import lombok.Data;
 
-@Data
-public class Guitare {
+import javax.persistence.*;
 
-    private Long id;
-    private String brand;
-    private String model;
-    private Integer stringNumber;
-    private Double price;
+@Data
+@Entity
+@SequenceGenerator(name = "default_seq", sequenceName = "guitare_seq", allocationSize = 1)
+public class Guitare extends AbstractEntity {
+
+	private String brand;
+
+	private String model;
+
+	private Integer stringNumber = 6;
+
+	private Double price;
+
 }

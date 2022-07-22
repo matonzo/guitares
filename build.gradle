@@ -1,8 +1,17 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.34")
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.7.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'checkstyle'
+    id 'pmd'
 }
 
 group = 'fr.sma.back'
@@ -20,20 +29,32 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version:'7.2'
     compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
+apply plugin: 'checkstyle'
+
 checkstyle {
-    //configFile file('your/checkstyle.xml');
-    toolVersion '10.3.1';    // your choice here
+    toolVersion = "10.3"
 }
+
+dependencies {
+    checkstyle("io.spring.javaformat:spring-javaformat-checkstyle:0.0.34")
+}
+
+apply plugin: 'io.spring.javaformat'
+
+
